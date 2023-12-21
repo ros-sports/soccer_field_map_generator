@@ -36,9 +36,9 @@ class Tooltip:
         self,
         widget,
         *,
-        bg="#FFFFEA",
+        bg='#FFFFEA',
         pad=(5, 3, 5, 3),
-        text="widget info",
+        text='widget info',
         waittime=400,
         wraplength=250
     ):
@@ -46,9 +46,9 @@ class Tooltip:
         self.wraplength = wraplength  # in pixels, originally 180
         self.widget = widget
         self.text = text
-        self.widget.bind("<Enter>", self.onEnter)
-        self.widget.bind("<Leave>", self.onLeave)
-        self.widget.bind("<ButtonPress>", self.onLeave)
+        self.widget.bind('<Enter>', self.onEnter)
+        self.widget.bind('<Leave>', self.onLeave)
+        self.widget.bind('<ButtonPress>', self.onLeave)
         self.bg = bg
         self.pad = pad
         self.id = None
@@ -142,7 +142,7 @@ class Tooltip:
 
         x, y = tip_pos_calculator(widget, label)
 
-        self.tw.wm_geometry("+%d+%d" % (x, y))
+        self.tw.wm_geometry('+%d+%d' % (x, y))
 
     def hide(self):
         tw = self.tw

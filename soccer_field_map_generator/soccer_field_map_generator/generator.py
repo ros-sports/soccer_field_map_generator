@@ -1,33 +1,46 @@
-#!/usr/bin/env python3
+# Copyright (c) 2023 Hamburg Bit-Bots
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
+
+from enum import Enum
 import math
-import yaml
+from typing import Optional
 
 import cv2
 import numpy as np
-from typing import Optional
 from scipy import ndimage
-from enum import Enum
+import yaml
 
 
 class MapTypes(Enum):
-    LINE = "line"
-    POSTS = "posts"
-    FIELD_BOUNDARY = "field_boundary"
-    FIELD_FEATURES = "field_features"
-    CORNERS = "corners"
-    TCROSSINGS = "tcrossings"
-    CROSSES = "crosses"
+    LINE = 'line'
+    POSTS = 'posts'
+    FIELD_BOUNDARY = 'field_boundary'
+    FIELD_FEATURES = 'field_features'
+    CORNERS = 'corners'
+    TCROSSINGS = 'tcrossings'
+    CROSSES = 'crosses'
 
 
 class MarkTypes(Enum):
-    POINT = "point"
-    CROSS = "cross"
+    POINT = 'point'
+    CROSS = 'cross'
 
 
 class FieldFeatureStyles(Enum):
-    EXACT = "exact"
-    BLOB = "blob"
+    EXACT = 'exact'
+    BLOB = 'blob'
 
 
 def drawCross(img, point, color, width=5, length=15):
@@ -62,30 +75,30 @@ def drawDistance(image, decay_factor):
 
 
 def generate_map_image(parameters):
-    target = MapTypes(parameters["map_type"])
-    mark_type = MarkTypes(parameters["mark_type"])
-    field_feature_style = FieldFeatureStyles(parameters["field_feature_style"])
+    target = MapTypes(parameters['map_type'])
+    mark_type = MarkTypes(parameters['mark_type'])
+    field_feature_style = FieldFeatureStyles(parameters['field_feature_style'])
 
-    penalty_mark = parameters["penalty_mark"]
-    center_point = parameters["center_point"]
-    goal_back = parameters["goal_back"]  # Draw goal back area
+    penalty_mark = parameters['penalty_mark']
+    center_point = parameters['center_point']
+    goal_back = parameters['goal_back']  # Draw goal back area
 
-    stroke_width = parameters["stroke_width"]
-    field_length = parameters["field_length"]
-    field_width = parameters["field_width"]
-    goal_depth = parameters["goal_depth"]
-    goal_width = parameters["goal_width"]
-    goal_area_length = parameters["goal_area_length"]
-    goal_area_width = parameters["goal_area_width"]
-    penalty_mark_distance = parameters["penalty_mark_distance"]
-    center_circle_diameter = parameters["center_circle_diameter"]
-    border_strip_width = parameters["border_strip_width"]
-    penalty_area_length = parameters["penalty_area_length"]
-    penalty_area_width = parameters["penalty_area_width"]
-    field_feature_size = parameters["field_feature_size"]
-    distance_map = parameters["distance_map"]
-    distance_decay = parameters["distance_decay"]
-    invert = parameters["invert"]
+    stroke_width = parameters['stroke_width']
+    field_length = parameters['field_length']
+    field_width = parameters['field_width']
+    goal_depth = parameters['goal_depth']
+    goal_width = parameters['goal_width']
+    goal_area_length = parameters['goal_area_length']
+    goal_area_width = parameters['goal_area_width']
+    penalty_mark_distance = parameters['penalty_mark_distance']
+    center_circle_diameter = parameters['center_circle_diameter']
+    border_strip_width = parameters['border_strip_width']
+    penalty_area_length = parameters['penalty_area_length']
+    penalty_area_width = parameters['penalty_area_width']
+    field_feature_size = parameters['field_feature_size']
+    distance_map = parameters['distance_map']
+    distance_decay = parameters['distance_decay']
+    invert = parameters['invert']
 
     # Color of the lines and marks
     color = (255, 255, 255)  # white
@@ -197,7 +210,7 @@ def generate_map_image(parameters):
             elif mark_type == MarkTypes.CROSS:
                 drawCross(img, middle_point, color, stroke_width)
             else:
-                raise NotImplementedError("Mark type not implemented")
+                raise NotImplementedError('Mark type not implemented')
 
         # Draw penalty marks (point or cross)
         if penalty_mark:
@@ -208,7 +221,7 @@ def generate_map_image(parameters):
                 drawCross(img, penalty_mark_left, color, stroke_width)
                 drawCross(img, penalty_mark_right, color, stroke_width)
             else:
-                raise NotImplementedError("Mark type not implemented")
+                raise NotImplementedError('Mark type not implemented')
 
         # Draw goal area
         img = cv2.rectangle(
@@ -657,10 +670,10 @@ def generate_map_image(parameters):
 def generate_metadata(parameters: dict, image_name: str) -> dict:
     # Get the field dimensions in cm
     field_dimensions = np.array(
-        [parameters["field_length"], parameters["field_width"], 0]
+        [parameters['field_length'], parameters['field_width'], 0]
     )
     # Add the border strip
-    field_dimensions[:2] += 2 * parameters["border_strip_width"]
+    field_dimensions[:2] += 2 * parameters['border_strip_width']
     # Get the origin
     origin = -field_dimensions / 2
     # Convert to meters
@@ -668,12 +681,12 @@ def generate_metadata(parameters: dict, image_name: str) -> dict:
 
     # Generate the metadata
     return {
-        "image": image_name,
-        "resolution": 0.01,
-        "origin": origin.tolist(),
-        "occupied_thresh": 0.99,
-        "free_thresh": 0.196,
-        "negate": int(parameters["invert"]),
+        'image': image_name,
+        'resolution': 0.01,
+        'origin': origin.tolist(),
+        'occupied_thresh': 0.99,
+        'free_thresh': 0.196,
+        'negate': int(parameters['invert']),
     }
 
 
@@ -682,11 +695,11 @@ def load_config_file(file) -> Optional[dict]:
     config_file = yaml.load(file, Loader=yaml.FullLoader)
     # Check if the file is valid (has the correct fields)
     if (
-        "header" in config_file
-        and "type" in config_file["header"]
-        and "version" in config_file["header"]
-        and "parameters" in config_file
-        and config_file["header"]["version"] == "1.0"
-        and config_file["header"]["type"] == "map_generator_config"
+        'header' in config_file
+        and 'type' in config_file['header']
+        and 'version' in config_file['header']
+        and 'parameters' in config_file
+        and config_file['header']['version'] == '1.0'
+        and config_file['header']['type'] == 'map_generator_config'
     ):
-        return config_file["parameters"]
+        return config_file['parameters']
