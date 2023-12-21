@@ -399,7 +399,7 @@ class MapGeneratorGUI:
 
 def main():
     root = tk.Tk()
-    app = MapGeneratorGUI(root)
+    MapGeneratorGUI(root)
     root.mainloop()
 
 

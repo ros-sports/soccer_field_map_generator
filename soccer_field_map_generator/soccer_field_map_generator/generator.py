@@ -169,11 +169,8 @@ def generate_map_image(parameters):
     goalpost_right_1 = (image_size[1] - goalpost_left_1[0], goalpost_left_1[1])
     goalpost_right_2 = (image_size[1] - goalpost_left_2[0], goalpost_left_2[1])
 
-    goal_back_corner_left_1 = (goalpost_left_1[0] - goal_depth, goalpost_left_1[1])
-    goal_back_corner_left_2 = (goalpost_left_2[0] - goal_depth, goalpost_left_2[1])
-
-    goal_back_corner_right_1 = (goalpost_right_1[0] + goal_depth, goalpost_right_1[1])
-    goal_back_corner_right_2 = (goalpost_right_2[0] + goal_depth, goalpost_right_2[1])
+    goal_back_corner_left = (goalpost_left_2[0] - goal_depth, goalpost_left_2[1])
+    goal_back_corner_right = (goalpost_right_2[0] + goal_depth, goalpost_right_2[1])
 
     # Create black image in the correct size
     img = np.zeros(image_size, np.uint8)
@@ -232,10 +229,10 @@ def generate_map_image(parameters):
         # Draw goal back area
         if goal_back:
             img = cv2.rectangle(
-                img, goalpost_left_1, goal_back_corner_left_2, color, stroke_width
+                img, goalpost_left_1, goal_back_corner_left, color, stroke_width
             )
             img = cv2.rectangle(
-                img, goalpost_right_1, goal_back_corner_right_2, color, stroke_width
+                img, goalpost_right_1, goal_back_corner_right, color, stroke_width
             )
 
     if target == MapTypes.POSTS:
