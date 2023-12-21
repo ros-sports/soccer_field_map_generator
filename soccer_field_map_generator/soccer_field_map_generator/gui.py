@@ -34,6 +34,7 @@ import yaml
 
 
 class MapGeneratorParamInput(tk.Frame):
+
     def __init__(
         self, parent, update_hook: callable, parameter_definitions: dict[str, dict]
     ):
