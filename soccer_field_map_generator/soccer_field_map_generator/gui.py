@@ -103,7 +103,7 @@ class MapGeneratorParamInput(tk.Frame):
 
 
 class MapGeneratorGUI:
-    
+
     def __init__(self, root: tk.Tk):
         # Set ttk theme
         s = ttk.Style()
