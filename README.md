@@ -36,7 +36,7 @@ source venv/bin/activate
 Then install the tool using pip:
 
 ```shell
-pip install "git+https://github.com/ros-sports/soccer_field_map_generator.git#egg=soccer_field_map_generator&subdirectory=soccer_field_map_generator"
+pip install "git+https://github.com/ros-sports/soccer_field_map_generator.git#subdirectory=soccer_field_map_generator"
 ```
 
 
