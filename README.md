@@ -8,9 +8,11 @@ This repository contains a tool for generating soccer field maps. It includes a 
 
 ## Installation
 
+### Installation using ROS 2
+
 To install the tool, run the following commands in your colcon workspace:
 
-```bash
+```shell
 git clone git@github.com:ros-sports/soccer_field_map_generator.git src/soccer_field_map_generator
 rosdep install --from-paths src --ignore-src -r -y
 colcon build
@@ -18,9 +20,25 @@ colcon build
 
 Don't forget to source your workspace after building:
 
-```bash
+```shell
 source install/setup.bash
 ```
+
+### Installation using only Python
+
+First I would recommend creating a virtual environment:
+
+```shell
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Then install the tool using pip:
+
+```shell
+pip install "git+https://github.com/ros-sports/soccer_field_map_generator.git#egg=soccer_field_map_generator&subdirectory=soccer_field_map_generator"
+```
+
 
 ## Usage
 
@@ -28,8 +46,14 @@ source install/setup.bash
 
 To launch the GUI, run the following command:
 
-```bash
+```shell
 ros2 run soccer_field_map_generator gui
+```
+
+or this command if you installed the tool using pip:
+
+```shell
+python -m soccer_field_map_generator.gui
 ```
 
 You should see a window like this:
@@ -40,6 +64,12 @@ You should see a window like this:
 
 To generate a map using the command-line interface, run the following command:
 
-```bash
+```shell
 ros2 run soccer_field_map_generator cli [output_file] [config_file] [options]
+```
+
+or this command if you installed the tool using pip:
+
+```shell
+python -m soccer_field_map_generator.cli [output_file] [config_file] [options]
 ```
