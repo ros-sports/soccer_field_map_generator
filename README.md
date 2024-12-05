@@ -1,7 +1,7 @@
 # Soccer Field Map Generator
 
 [![Build and Test (humble)](../../actions/workflows/build_and_test_humble.yaml/badge.svg?branch=rolling)](../../actions/workflows/build_and_test_humble.yaml?query=branch:rolling)
-[![Build and Test (iron)](../../actions/workflows/build_and_test_iron.yaml/badge.svg?branch=rolling)](../../actions/workflows/build_and_test_iron.yaml?query=branch:rolling)
+[![Build and Test (jazzy)](../../actions/workflows/build_and_test_jazzy.yaml/badge.svg?branch=rolling)](../../actions/workflows/build_and_test_jazzy.yaml?query=branch:rolling)
 [![Build and Test (rolling)](../../actions/workflows/build_and_test_rolling.yaml/badge.svg?branch=rolling)](../../actions/workflows/build_and_test_rolling.yaml?query=branch:rolling)
 
 This repository contains a tool for generating soccer field maps. It includes a GUI for interactively creating and editing maps, as well as a command-line interface for scripted map generation.
