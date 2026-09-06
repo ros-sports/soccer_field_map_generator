@@ -21,6 +21,7 @@ import cv2
 from soccer_field_map_generator.generator import (
     generate_map_image,
     generate_metadata,
+    generate_parameter_blackboard,
     load_config_file,
 )
 import yaml
@@ -37,6 +38,10 @@ def main():
         '--metadata',
         help="Also generates a 'map_server.yaml' file with the metadata for the map",
         action='store_true',
+    )
+    parser.add_argument(
+        '--parameter-blackboard',
+        help='Write field geometry to the specified parameter blackboard YAML file',
     )
     args = parser.parse_args()
 
@@ -67,6 +72,12 @@ def main():
 
     # Save the image
     cv2.imwrite(output_path, image)
+
+    if args.parameter_blackboard:
+        with open(args.parameter_blackboard, 'w') as blackboard_file:
+            yaml.safe_dump(
+                generate_parameter_blackboard(parameters), blackboard_file, sort_keys=False
+            )
 
     # Generate the metadata
     if args.metadata:

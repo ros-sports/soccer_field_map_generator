@@ -25,6 +25,7 @@ from soccer_field_map_generator.generator import (
     FieldFeatureStyles,
     generate_map_image,
     generate_metadata,
+    generate_parameter_blackboard,
     load_config_file,
     MapTypes,
     MarkTypes,
@@ -272,6 +273,12 @@ class MapGeneratorGUI:
             self.root, text='Save Metadata', variable=self.save_metadata
         )
 
+        self.save_blackboard = tk.BooleanVar(value=False)
+        self.save_blackboard_checkbox = ttk.Checkbutton(
+            self.root, text='Save Parameter Blackboard', variable=self.save_blackboard
+        )
+        self.save_blackboard_checkbox.grid(row=4, column=0, columnspan=2)
+
         # Load and save config buttons
         self.load_config_button = ttk.Button(
             self.root, text='Load Config', command=self.load_config
@@ -362,6 +369,14 @@ class MapGeneratorGUI:
             parameters = self.parameter_input.get_parameters()
             generated_map = generate_map_image(parameters)
             if cv2.imwrite(file.name, generated_map):
+                if self.save_blackboard.get():
+                    blackboard_file = os.path.join(
+                        os.path.dirname(file.name), 'parameter_blackboard.yaml'
+                    )
+                    with open(blackboard_file, 'w') as f:
+                        yaml.safe_dump(
+                            generate_parameter_blackboard(parameters), f, sort_keys=False
+                        )
                 # Save metadata
                 if self.save_metadata.get():
                     # Save the metadata in this format:

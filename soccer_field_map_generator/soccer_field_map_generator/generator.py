@@ -703,3 +703,32 @@ def load_config_file(file) -> Optional[dict]:
         and config_file['header']['type'] == 'map_generator_config'
     ):
         return config_file['parameters']
+
+
+def generate_parameter_blackboard(parameters: dict) -> dict:
+    """Export field geometry in meters for the parameter blackboard."""
+    return {
+        'parameter_blackboard': {
+            'ros__parameters': {
+                'field': {
+                    'size': {
+                        'x': parameters['field_length'] / 100,
+                        'y': parameters['field_width'] / 100,
+                        'padding': parameters['border_strip_width'] / 100,
+                    },
+                    'markings': {
+                        'penalty_area': {
+                            'size': {'x': parameters['penalty_area_length'] / 100},
+                        },
+                        'center_circle': {
+                            'diameter': parameters['center_circle_diameter'] / 100,
+                        },
+                    },
+                    'goal': {
+                        'width': parameters['goal_width'] / 100,
+                        'depth': parameters['goal_depth'] / 100,
+                    },
+                },
+            },
+        },
+    }

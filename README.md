@@ -73,3 +73,9 @@ or this command if you installed the tool using pip:
 ```shell
 python -m soccer_field_map_generator.cli [output_file] [config_file] [options]
 ```
+
+Use `--parameter-blackboard <output_yaml>` to export field geometry alongside
+an image. The GUI offers a Save Parameter Blackboard checkbox and writes
+`parameter_blackboard.yaml` beside the image. The export uses meters and includes
+`field.markings.center_circle.diameter`, field size and padding, penalty-area
+depth, and goal width and depth.
